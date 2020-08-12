@@ -29,7 +29,7 @@ pipeline {
         stage('Build Docker image') {
             steps{
                 script {
-                    docker.build("hisbu/webapps-test")
+                    app = docker.build("hisbu/webapps-test")
                 }
             }
         }
