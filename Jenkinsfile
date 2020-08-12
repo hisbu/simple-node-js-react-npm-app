@@ -20,11 +20,16 @@ pipeline {
                 sh './jenkins/scripts/test.sh'
             }
         }
-        stage('Build Docker image') {
+        stage('Build react project') {
             steps{
                 sh 'npm run build'
-                app = docker.build("hisbu/webapps-test")
-                
+            }
+        }
+        stage('Build Docker image') {
+            steps{
+                script {
+                    app  = docker.build("hisbu/webapps-test")
+                }
             }
         }
         // stage('Delivery') {
