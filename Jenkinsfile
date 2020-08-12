@@ -29,9 +29,10 @@ pipeline {
         }   
         stage('Build Docker image') {
             steps{
-                script {
-                    app = docker.build("hisbu/webapps-test")
-                }
+                // script {
+                //     app = docker.build("hisbu/webapps-test")
+                // }
+                sh 'docker build . -t hisbu/webapps-test'
             }
         }
         // stage('Delivery') {
