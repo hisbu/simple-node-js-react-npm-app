@@ -14,7 +14,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'start build'
-                sh 'npm install'
+                nodejs('node'){
+                    sh 'npm install'
+                }
             }
         }
         stage('Test') {
