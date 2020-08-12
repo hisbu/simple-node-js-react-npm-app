@@ -3,6 +3,7 @@ pipeline {
         docker {
             image 'node:6-alpine'
             args '-p 3000:3000'
+            args '-v $HOME/.m2:/root/.m2'
         }
     }
     // agent any
@@ -26,13 +27,13 @@ pipeline {
                 sh 'npm run build'
             }
         }   
-        // stage('Build Docker image') {
-        //     steps{
-        //         script {
-        //             app = docker.build("hisbu/webapps-test")
-        //         }
-        //     }
-        // }
+        stage('Build Docker image') {
+            steps{
+                script {
+                    app = docker.build("hisbu/webapps-test")
+                }
+            }
+        }
         // stage('Delivery') {
         //     steps {
         //         sh './jenkins/scripts/deliver.sh'
