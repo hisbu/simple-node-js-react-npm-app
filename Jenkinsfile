@@ -26,13 +26,13 @@ pipeline {
                 sh 'npm run build'
             }
         }   
-        stage('Build Docker image') {
-            steps{
-                script {
-                    app = docker.build("hisbu/webapps-test")
-                }
-            }
-        }
+        // stage('Build Docker image') {
+        //     steps{
+        //         script {
+        //             app = docker.build("hisbu/webapps-test")
+        //         }
+        //     }
+        // }
         // stage('Delivery') {
         //     steps {
         //         sh './jenkins/scripts/deliver.sh'
