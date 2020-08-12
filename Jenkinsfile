@@ -23,9 +23,8 @@ pipeline {
         stage('Build Docker image') {
             steps{
                 sh 'npm run build'
-                scripts {
-                    app = docker.build("hisbu/webapps-test")
-                }
+                app = docker.build("hisbu/webapps-test")
+                
             }
         }
         // stage('Delivery') {
