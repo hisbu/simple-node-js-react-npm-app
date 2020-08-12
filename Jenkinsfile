@@ -14,21 +14,21 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'start build'
-                nodejs('node'){
-                    sh 'npm install'
-                }
+                // nodejs('node'){
+                //     sh 'npm install'
+                // }
             }
         }
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
-            }
-        }
-        stage('Build react project') {
-            steps{
-                sh 'npm run build'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh './jenkins/scripts/test.sh'
+        //     }
+        // }
+        // stage('Build react project') {
+        //     steps{
+        //         sh 'npm run build'
+        //     }
+        // }
         stage('Build Docker image') {
             steps{
                 // script {
