@@ -1,11 +1,11 @@
 pipeline {
-    // agent {
-    //     docker {
-    //         image 'node:6-alpine'
-    //         args '-p 3000:3000'
-    //     }
-    // }
-    agent any
+    agent {
+        docker {
+            image 'node:6-alpine'
+            args '-p 3000:3000'
+        }
+    }
+    // agent any
     environment {
         CI = 'true'
     }
@@ -29,7 +29,7 @@ pipeline {
         stage('Build Docker image') {
             steps{
                 script {
-                    app  = docker.build("hisbu/webapps-test")
+                    docker.build("hisbu/webapps-test")
                 }
             }
         }
