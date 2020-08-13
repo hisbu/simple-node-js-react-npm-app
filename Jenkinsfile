@@ -59,16 +59,24 @@ pipeline {
                 // sh 'docker rmi hisbu/webapps-test'
             }
         }
-        stage('DeployToProduction') {
-            steps {
-                milestone(1)
-                kubernetesDeploy(
-                    kubeconfigId: 'kubernetes',
-                    configs: 'k8s_svc_deploy.yaml',
-                    enableConfigSubstitution: true
-                )
+        stage('Deploy to K8s'){
+            steps{
+                sshagent(['kube8']) {
+                    sh "scp -o StrictHostKeyChecking=no k8s_svc_deploy.yaml hisbu@35.247.151.81:/home/hisbu/jen/"
+                    sh "ssh hisbu@35.247.151.81 kubectl apply -f jen/."
+                }
             }
         }
+        // stage('DeployToProduction') {
+        //     steps {
+        //         milestone(1)
+        //         kubernetesDeploy(
+        //             kubeconfigId: 'kubernetes',
+        //             configs: 'k8s_svc_deploy.yaml',
+        //             enableConfigSubstitution: true
+        //         )
+        //     }
+        // }
         // stage('Delivery') {
         //     steps {
         //         sh './jenkins/scripts/deliver.sh'
