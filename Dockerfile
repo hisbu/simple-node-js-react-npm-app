@@ -1,10 +1,10 @@
 FROM nginx
-
-# WORKDIR /usr/share/nginx/html
-
-# COPY build/ .
-
+# set work dir
+WORKDIR /usr/share/nginx/html
+# copy file from build directory
+COPY build/ .
+# expose port 80
 EXPOSE 80
-
+# start naing 
 RUN ["nginx","-g","daemon off;"]
 

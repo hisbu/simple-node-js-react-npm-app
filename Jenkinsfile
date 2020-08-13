@@ -15,20 +15,20 @@ pipeline {
             steps {
                 echo 'start build'
                 // nodejs('node'){
-                //     sh 'npm install'
+                    sh 'npm install'
                 // }
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         sh './jenkins/scripts/test.sh'
-        //     }
-        // }
-        // stage('Build react project') {
-        //     steps{
-        //         sh 'npm run build'
-        //     }
-        // }
+        stage('Test') {
+            steps {
+                sh './jenkins/scripts/test.sh'
+            }
+        }
+        stage('Build react project') {
+            steps{
+                sh 'npm run build'
+            }
+        }
         stage('Build Docker image') {
             steps{
                 // script {
