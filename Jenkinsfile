@@ -52,7 +52,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
-                        docker.image("hisbu/webapps-test")
+                        // docker.image("hisbu/webapps-test")
+                        dockerImage.push()
                     }
                 }
                 // sh 'docker rmi hisbu/webapps-test'
