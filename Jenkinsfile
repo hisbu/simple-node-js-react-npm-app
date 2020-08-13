@@ -39,7 +39,7 @@ pipeline {
         }
         stage('Test docker image') {
             steps{
-                sh 'docker run -d --name testImages -p 80:80 hisbu/webapps-test'
+                sh 'docker run -d -rm --name testImages -p 80:80 hisbu/webapps-test'
                 input message: 'Finished test image? (Click "Proceed" to Continue'
             }
         }
@@ -57,6 +57,7 @@ pipeline {
                         app.push("latest")
                     }
                 }
+                sh 'docker rmi hisbu/webapps-test'
             }
         }
         // stage('Delivery') {
