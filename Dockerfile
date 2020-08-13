@@ -6,5 +6,5 @@ COPY build/ .
 # expose port 80
 EXPOSE 80
 # start naing 
-RUN ["nginx","-g","daemon off;"]
+CMD ["nginx","-g","daemon off;"]
 
