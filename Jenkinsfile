@@ -55,7 +55,7 @@ pipeline {
                         docker.image("hisbu/webapps-test")
                     }
                 }
-                sh 'docker rmi hisbu/webapps-test'
+                // sh 'docker rmi hisbu/webapps-test'
             }
         }
         // stage('Delivery') {
