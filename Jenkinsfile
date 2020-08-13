@@ -59,6 +59,16 @@ pipeline {
                 // sh 'docker rmi hisbu/webapps-test'
             }
         }
+        stage('DeployToProduction') {
+            steps {
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubernetes',
+                    configs: 'k8s_svc_deploy.yaml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
         // stage('Delivery') {
         //     steps {
         //         sh './jenkins/scripts/deliver.sh'
