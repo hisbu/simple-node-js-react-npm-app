@@ -37,6 +37,28 @@ pipeline {
                 sh 'docker build . -t hisbu/webapps-test'
             }
         }
+        stage('Test docker image') {
+            steps{
+                sh 'docker run -d --name testImages -p 80:80 hisbu/webapps-test'
+                input message: 'Finished test image? (Click "Proceed" to Continue'
+            }
+        }
+        stage('Clean docker test') {
+            steps{
+                sh 'docker stop testImages'
+                sh 'docker rm testImages'
+            }
+        }
+        stage('Push image to registry'){
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                        app.push("hisbu/webapps-test")
+                        app.push("latest")
+                    }
+                }
+            }
+        }
         // stage('Delivery') {
         //     steps {
         //         sh './jenkins/scripts/deliver.sh'
