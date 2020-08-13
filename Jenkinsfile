@@ -46,7 +46,6 @@ pipeline {
         stage('Clean docker test') {
             steps{
                 sh 'docker stop testImages'
-                sh 'docker rm testImages'
             }
         }
         stage('Push image to registry'){
