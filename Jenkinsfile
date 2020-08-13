@@ -31,10 +31,10 @@ pipeline {
         }
         stage('Build Docker image') {
             steps{
-                // script {
-                //     app = docker.build("hisbu/webapps-test")
-                // }
-                sh 'docker build . -t hisbu/webapps-test'
+                script {
+                    app = docker.build("hisbu/webapps-test")
+                }
+                // sh 'docker build . -t hisbu/webapps-test'
             }
         }
         stage('Test docker image') {
@@ -53,7 +53,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
                         // docker.image("hisbu/webapps-test")
-                        dockerImage.push()
+                        app.push()
                     }
                 }
                 // sh 'docker rmi hisbu/webapps-test'
