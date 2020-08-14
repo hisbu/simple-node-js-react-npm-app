@@ -33,14 +33,14 @@ pipeline {
         stage('Build Docker image') {
             steps{
                 script {
-                    // app = docker.build("hisbu/webapps-test:${DOCKER_TAG}", ".")
-                    app = sh "docker build . -t hisbu/webapps-test:${DOCKER_TAG}"
+                    app = docker.build("hisbu/webapps-test")
+                    // app = sh "docker build . -t hisbu/webapps-test:${DOCKER_TAG}"
                 }
             }
         }
         stage('Test docker image') {
             steps{
-                sh "docker run -d --rm --name testImages -p 80:80 hisbu/webapps-test:${DOCKER_TAG}"
+                sh "docker run -d --rm --name testImages -p 80:80 hisbu/webapps-test"
                 input message: 'Finished test image? (Click "Proceed" to Continue)'
             }
         }
@@ -51,19 +51,20 @@ pipeline {
         }
         stage('Push image to registry'){
             steps {
-                // script {
-                //     docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
-                //         // docker.image("hisbu/webapps-test")
-                //         // app.push()
-                //         sh "docker push hisbu/webapps-test:${DOCKER_TAG}"
-                //     }
-                // }
-
-                withCredentials([string(credentialsId: 'dockerHub', variable: 'hubPass')]) {
-                    echo "${hubPass}"
-                    sh "docker login -u hisbu -p ${hubPass}"
-                    sh "docker push hisbu/webapps-test:${DOCKER_TAG}"
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                        // docker.image("hisbu/webapps-test")
+                        app.push("${DOCKER_TAG}")
+                        app.push("latest")
+                        // sh "docker push hisbu/webapps-test:${DOCKER_TAG}"
+                    }
                 }
+
+                // withCredentials([string(credentialsId: 'dockerHub', variable: 'hubPass')]) {
+                //     echo "${hubPass}"
+                //     sh "docker login -u hisbu -p ${hubPass}"
+                //     sh "docker push hisbu/webapps-test:${DOCKER_TAG}"
+                // }
                 // sh 'docker rmi hisbu/webapps-test'
             }
         }
