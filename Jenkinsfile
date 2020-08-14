@@ -10,7 +10,6 @@ pipeline {
     environment {
         CI = 'true'
         DOCKER_TAG = getDockerTag()
-        DOCKER_IMAGE_NAME="hisbu/webapps-test:${DOCKER_TAG}"
     }
     stages {
         stage('Build') {
@@ -34,14 +33,14 @@ pipeline {
         stage('Build Docker image') {
             steps{
                 script {
-                    app = docker.build(DOCKER_IMAGE_NAME)
+                    app = docker.build("hisbu/webapps-test:${DOCKER_TAG}")
                 }
-                // sh "docker build . -t hisbu/webapps-test:${DOCKER_TAG}"
+                // sh 'docker build . -t hisbu/webapps-test'
             }
         }
         stage('Test docker image') {
             steps{
-                sh "docker run -d --rm --name testImages -p 80:80 ${DOCKER_IMAGE_NAME}"
+                sh "docker run -d --rm --name testImages -p 80:80 hisbu/webapps-test:${DOCKER_TAG}"
                 input message: 'Finished test image? (Click "Proceed" to Continue)'
             }
         }
