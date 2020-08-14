@@ -60,7 +60,8 @@ pipeline {
                 // }
 
                 withCredentials([string(credentialsId: 'dockerHub', variable: 'hubPass')]) {
-                    sh "docker login -u hisbu -p ${hubpass}"
+                    echo "${hubPass}"
+                    sh "docker login -u hisbu -p ${hubPass}"
                     sh "docker push hisbu/webapps-test:${DOCKER_TAG}"
                 }
                 // sh 'docker rmi hisbu/webapps-test'
