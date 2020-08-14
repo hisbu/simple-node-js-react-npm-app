@@ -33,7 +33,7 @@ pipeline {
         stage('Build Docker image') {
             steps{
                 script {
-                    app = docker.build("hisbu/webapps-test")
+                    app = docker.build("hisbu/webapps-test:${DOCKER_TAG}")
                 }
                 // sh 'docker build . -t hisbu/webapps-test'
             }
@@ -91,6 +91,6 @@ pipeline {
 }
 
 def getDockerTag(){
-    def tag  = sh script: 'git rev-parse HEAD', returnStdout: true
+    def tag  = sh script: 'git rev-parse HEAD | cut -d -10', returnStdout: true
     return tag
 }
