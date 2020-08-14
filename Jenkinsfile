@@ -51,12 +51,17 @@ pipeline {
         }
         stage('Push image to registry'){
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
-                        // docker.image("hisbu/webapps-test")
-                        // app.push()
-                        sh "docker push hisbu/webapps-test:${DOCKER_TAG}"
-                    }
+                // script {
+                //     docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                //         // docker.image("hisbu/webapps-test")
+                //         // app.push()
+                //         sh "docker push hisbu/webapps-test:${DOCKER_TAG}"
+                //     }
+                // }
+
+                withCredentials([string(credentialsId: 'dockerHub', variable: 'hubPass')]) {
+                    sh "docker login -u hisbu -p ${hubpass}"
+                    sh "docker push hisbu/webapps-test:${DOCKER_TAG}"
                 }
                 // sh 'docker rmi hisbu/webapps-test'
             }
