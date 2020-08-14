@@ -16,7 +16,7 @@ class App extends Component {
           To get started, edit dsgit<code>src/App.js</code> and save to reload.
         </p>
           <Clock format={'HH:mm:ss'} ticking={true} timezone={'Asia/Jakarta'} />
-          <p>hallo</p>
+          <h1>hallo</h1>
       </div>
     );
   }

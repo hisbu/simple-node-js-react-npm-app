@@ -41,7 +41,7 @@ pipeline {
         stage('Test docker image') {
             steps{
                 sh "docker run -d --rm --name testImages -p 80:80 hisbu/webapps-test"
-                input message: 'Finished test image? (Click "Proceed" to Continue)'
+                // input message: 'Finished test image? (Click "Proceed" to Continue)'
             }
         }
         stage('Clean docker test') {
