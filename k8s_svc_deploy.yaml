@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: react-app
-          image: hisbu/webapps-test:latest
+          image: hisbu/webapps-test:tagVersion
           ports:
             - containerPort: 80
 

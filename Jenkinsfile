@@ -9,6 +9,7 @@ pipeline {
     agent any
     environment {
         CI = 'true'
+        DOCKER_TAG = getDockerTag()
     }
     stages {
         stage('Build') {
@@ -32,15 +33,15 @@ pipeline {
         stage('Build Docker image') {
             steps{
                 script {
-                    app = docker.build("hisbu/webapps-test")
+                    app = docker.build("hisbu/webapps-test:${DOCKER_TAG}")
                 }
                 // sh 'docker build . -t hisbu/webapps-test'
             }
         }
         stage('Test docker image') {
             steps{
-                sh 'docker run -d --rm --name testImages -p 80:80 hisbu/webapps-test'
-                input message: 'Finished test image? (Click "Proceed" to Continue'
+                sh "docker run -d --rm --name testImages -p 80:80 hisbu/webapps-test:${DOCKER_TAG}"
+                input message: 'Finished test image? (Click "Proceed" to Continue)'
             }
         }
         stage('Clean docker test') {
@@ -61,8 +62,10 @@ pipeline {
         }
         stage('Deploy to K8s'){
             steps{
+                sh "chmod +x changeTag.sh"
+                sh "./changeTag.sh ${DOCKER_TAG}"
                 sshagent(['kube8']) {
-                    sh "scp -o StrictHostKeyChecking=no k8s_svc_deploy.yaml hisbu@35.247.151.81:/home/hisbu/jen/"
+                    sh "scp -o StrictHostKeyChecking=no  web-app-deployment.yml hisbu@35.247.151.81:/home/hisbu/jen/"
                     sh "ssh hisbu@35.247.151.81 kubectl apply -f jen/."
                 }
             }
@@ -85,4 +88,9 @@ pipeline {
         //     }
         // }
     }
+}
+
+def getDockerTag(){
+    def tag  = sh script: 'git rev-parse HEAD', returnStdout: true
+    return tag
 }
