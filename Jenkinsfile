@@ -33,9 +33,9 @@ pipeline {
         stage('Build Docker image') {
             steps{
                 script {
-                    app = docker.build("hisbu/webapps-test:${DOCKER_TAG}", ".")
+                    // app = docker.build("hisbu/webapps-test:${DOCKER_TAG}", ".")
+                    app = sh "docker build . -t hisbu/webapps-test:${DOCKER_TAG}"
                 }
-                // sh 'docker build . -t hisbu/webapps-test'
             }
         }
         stage('Test docker image') {
